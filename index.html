@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <!-- Aucune requête réseau externe : tout est servi depuis l'app elle-même. -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#1f2933">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Lecteur DOCX">
+  <title>Lecteur DOCX</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <header class="topbar">
+    <button id="btn-home" class="icon-btn" aria-label="Bibliothèque" hidden>‹</button>
+    <h1 id="title" class="topbar__title">Lecteur DOCX</h1>
+    <button id="btn-toc" class="icon-btn" aria-label="Sommaire" hidden>☰</button>
+    <button id="btn-settings" class="icon-btn" aria-label="Réglages">Aa</button>
+  </header>
+
+  <main>
+    <!-- Écran bibliothèque -->
+    <section id="view-library" class="view">
+      <label class="open-btn">
+        <input id="file-input" type="file" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden>
+        Ouvrir un fichier .docx
+      </label>
+      <p class="hint">Le fichier est lu uniquement sur cet appareil. Rien n'est envoyé.</p>
+
+      <h2 class="section-title">Récents</h2>
+      <ul id="recent-list" class="recent-list"></ul>
+      <p id="recent-empty" class="hint">Aucun document pour l'instant.</p>
+    </section>
+
+    <!-- Écran lecture -->
+    <section id="view-reader" class="view" hidden>
+      <div id="status" class="status" role="status"></div>
+      <article id="doc" class="doc"></article>
+    </section>
+  </main>
+
+  <!-- Panneau sommaire -->
+  <dialog id="toc-dialog" class="sheet">
+    <h2>Sommaire</h2>
+    <nav id="toc"></nav>
+    <form method="dialog"><button class="sheet__close">Fermer</button></form>
+  </dialog>
+
+  <!-- Panneau réglages -->
+  <dialog id="settings-dialog" class="sheet">
+    <h2>Réglages</h2>
+    <label class="field">Taille du texte
+      <input id="set-font" type="range" min="14" max="28" step="1">
+    </label>
+    <label class="field">Thème
+      <select id="set-theme">
+        <option value="auto">Automatique</option>
+        <option value="light">Clair</option>
+        <option value="sepia">Sépia</option>
+        <option value="dark">Sombre</option>
+      </select>
+    </label>
+    <label class="field field--row">
+      <input id="set-keep" type="checkbox">
+      Garder les documents récents sur l'appareil
+    </label>
+    <button id="btn-clear" class="danger">Effacer tous les documents récents</button>
+    <form method="dialog"><button class="sheet__close">Fermer</button></form>
+  </dialog>
+
+  <script src="vendor/mammoth.browser.min.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
